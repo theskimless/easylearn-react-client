@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39657a68-e445-452d-ab2e-559f3e45784d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Login/LoginContainer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/redux/reducers/profileReducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/LoginView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login/LoginContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/LoginContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Words/WordsContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Words/WordsContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/words-reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/wordsReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/store.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569147680363</updated>
       <workItem from="1569147681733" duration="17304000" />
-      <workItem from="1569253042463" duration="2218000" />
+      <workItem from="1569253042463" duration="3634000" />
     </task>
     <servers />
   </component>

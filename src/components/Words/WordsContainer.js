@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import WordsView from "./WordsView";
-import {getWords} from "../../redux/reducers/words-reducer";
+import {getWords} from "../../redux/reducers/wordsReducer";
 
 const WordsContainer = props => {
     // let [words, setWords] = useState([{id: 0, name: "asd"}]);

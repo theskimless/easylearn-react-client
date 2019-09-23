@@ -8,6 +8,10 @@ import {withRouter, Redirect} from "react-router-dom";
 let LoginComponent = props => {
     let [redirect, setRedirect] = useState(false);
 
+    if(localStorage.getItem("access_token")) {
+        console.log(localStorage.getItem("access_token"))
+    }
+
     if(props.location.search) {
         let query = props.location.search
             .slice(1)
@@ -34,4 +38,8 @@ let LoginComponent = props => {
     return redirect ? <Redirect to="/login" /> : <LoginView />;
 };
 
-export default withRouter(LoginComponent);
+const mapStateToProps = state => ({
+    isAuthenticated
+});
+
+export default connect()(withRouter(LoginComponent));
