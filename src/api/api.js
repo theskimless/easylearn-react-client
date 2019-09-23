@@ -11,9 +11,9 @@ export const wordsApi = {
 }
 
 export const auth = {
-    requestAuthorizationCode(code) {
+    requestToken(authorizationCode) {
         let form = new FormData();
-        form.append("code", code);
+        form.append("code", authorizationCode);
         form.append("client_id", "632277419807-7k3fohav6n5dtrbhdrrga12vipr22qi5.apps.googleusercontent.com");
         form.append("client_secret", "gb-xu0MzAu4dFr8dAkJCc-hk");
         form.append("redirect_uri", "http://localhost:3000/login");
