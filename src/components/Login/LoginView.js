@@ -4,6 +4,7 @@ const LoginView = props => {
 
     return (
         <div>
+            <img src={props.picture_url}></img>
             {/*{redirect && <Redirect to={"login"} /> }*/}
             <div><h3>GETTING AUTHORIZATION CODE</h3></div>
 

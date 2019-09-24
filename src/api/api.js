@@ -1,8 +1,16 @@
 import axios from "axios";
 
+const baseURL = "https://127.0.0.1:5000/";
+
 let instance = axios.create({
-    baseURL: "https://127.0.0.1:5000/"
+    baseURL
 });
+
+let withCreds = axios.create({
+    headers: {
+        "Authorization": "Bearer " + localStorage.getItem("access_token")
+    }
+})
 
 export const wordsApi = {
     requestWords(limit = 2) {
@@ -11,6 +19,12 @@ export const wordsApi = {
 }
 
 export const auth = {
+    test() {
+        console.log(instance);
+    },
+    getUserInfo() {
+        return withCreds.get("https://openidconnect.googleapis.com/v1/userinfo");
+    },
     requestToken(authorizationCode) {
         let form = new FormData();
         form.append("code", authorizationCode);
