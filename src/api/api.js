@@ -26,12 +26,26 @@ export const auth = {
         return withCreds.get("https://openidconnect.googleapis.com/v1/userinfo");
     },
     requestToken(authorizationCode) {
-        let form = new FormData();
-        form.append("code", authorizationCode);
-        form.append("client_id", "632277419807-7k3fohav6n5dtrbhdrrga12vipr22qi5.apps.googleusercontent.com");
-        form.append("client_secret", "gb-xu0MzAu4dFr8dAkJCc-hk");
-        form.append("redirect_uri", "http://localhost:3000/login");
-        form.append("grant_type", "authorization_code");
-        return axios.post("https://oauth2.googleapis.com/token", form);
+        return new Promise((resolve, reject) => {
+            let form = new FormData();
+            form.append("code", authorizationCode);
+            form.append("client_id", "632277419807-7k3fohav6n5dtrbhdrrga12vipr22qi5.apps.googleusercontent.com");
+            form.append("client_secret", "gb-xu0MzAu4dFr8dAkJCc-hk");
+            form.append("redirect_uri", "http://localhost:3000/login");
+            form.append("grant_type", "authorization_code");
+            axios.post("https://oauth2.googleapis.com/token", form)
+                .then(res => {
+                    console.log(res);
+                    if(res.status === 200) {
+                        localStorage.setItem("access_token", res.data["access_token"]);
+                        localStorage.setItem("refresh_token", res.data["refresh_token"]);
+                        localStorage.setItem("id_token", res.data["id_token"]);
+                        resolve(res.status);
+                    } 
+                    // else if(res.status === 401) {
+
+                    // }
+                });
+        });
     }
 }

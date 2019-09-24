@@ -5,8 +5,11 @@ const initialState = {
     picture_url: ""
 }
 
-export const SET_PICTURE = "SET_PICTURE";
+const SET_PICTURE = "SET_PICTURE";
 export const setPicture = picture_url => ({type: SET_PICTURE, picture_url});
+
+const SET_AUTH = "SET_AUTH";
+export const setAuth = state => ({type: SET_AUTH, state}); 
 
 export const requestPicture = () => dispatch => {
     auth.getUserInfo()
@@ -21,6 +24,11 @@ export const requestPicture = () => dispatch => {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case SET_AUTH:
+            return {
+                ...state,
+                isAuthenticated: action.state
+            }
         case SET_PICTURE:
             return {
                 ...state,
