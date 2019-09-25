@@ -7,30 +7,13 @@ let instance = axios.create({
     baseURL
 });
 
-let withCreds = axios.create({
-    headers: {
-        "Authorization": "Bearer " + localStorage.getItem("access_token")
-    }
-})
-
 export const wordsApi = {
     requestWords(limit = 2) {
         return instance.get(`words?limit=${limit}`);
     }
 }
 
-// function isTokenExpired(token) {
-//     if(token) {
-//         let payload = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(token.split(".")[1]));
-//         if(payload.exp*1000 - Date.now() > 0) return false;
-//     }
-//     return true;
-// }
-
 export const auth = {
-    test() {
-        console.log(instance);
-    },
     getUserInfo() {
         return axios.get("https://openidconnect.googleapis.com/v1/userinfo", {
             headers: {

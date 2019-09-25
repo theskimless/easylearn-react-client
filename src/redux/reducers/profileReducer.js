@@ -19,7 +19,7 @@ export const logOut = () => dispatch => {
         });
 }
 
-export const requestPicture = () => dispatch => {
+export const requestPicture = () => ({type: "withCreds", thunk: dispatch => {
     auth.getUserInfo()
         .then(res => {
             console.log(res);
@@ -28,9 +28,10 @@ export const requestPicture = () => dispatch => {
             }
         })
         .catch(err => console.log(err.response));
-};
+}});
 
 export default (state = initialState, action) => {
+    console.log(action);
     switch (action.type) {
         case SET_AUTH: {
             console.log("SET AUTH IN REDUCER");

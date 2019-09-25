@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import LoginView from "./LoginView";
 import {withRouter} from "react-router-dom";
 import {setAuth, requestPicture, logOut} from "../../redux/reducers/profileReducer";
-import { auth } from "../../api/api";
 
 function isTokenExpired() {
     if(localStorage.getItem("expires_in") - Date.now() > 0) return false;
@@ -13,30 +12,18 @@ function isTokenExpired() {
 let LoginContainer = props => {
     // debugger;
     console.log("LOGIN COMPONENT");
-
-    if(localStorage.getItem("refresh_token")) {
-        if(isTokenExpired()) {
-            console.log("EXPIRED");
-            props.setAuth(false);
-            auth.refreshToken()
-                .then(() => {
-                        console.log("THEN");
-                        props.setAuth(true);
-                    })
-                .catch(err => console.log(err));
-        }
-    }
-
+    
     useEffect(() => {
-        if(!isTokenExpired()) {
-            props.setAuth(true);
+        if(!props.isAuthenticated) {
+            let refresh_token = localStorage.getItem("refresh_token");
+            let access_token = localStorage.getItem("access_token");
+            let expires_in = localStorage.getItem("expires_in");
+            if(refresh_token && access_token && expires_in) {
+              props.setAuth(true);
+            }
         }
-    }, []);
-
-    useEffect(() => {
-        if(props.isAuthenticated) {
+        else {
             console.log("SET PICTURE USE EFFECT");
-            console.log(localStorage);
             props.setPicture();
         }
     }, [props.isAuthenticated]);
