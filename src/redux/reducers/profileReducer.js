@@ -9,7 +9,15 @@ const SET_PICTURE = "SET_PICTURE";
 export const setPicture = picture_url => ({type: SET_PICTURE, picture_url});
 
 const SET_AUTH = "SET_AUTH";
-export const setAuth = state => ({type: SET_AUTH, state}); 
+export const setAuth = state => ({type: SET_AUTH, state});
+
+export const logOut = () => dispatch => {
+    auth.revokeToken()
+        .then(res => {
+            console.log(res);
+            dispatch(setAuth(false));
+        });
+}
 
 export const requestPicture = () => dispatch => {
     auth.getUserInfo()
@@ -24,11 +32,13 @@ export const requestPicture = () => dispatch => {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case SET_AUTH:
+        case SET_AUTH: {
+            console.log("SET AUTH IN REDUCER");
             return {
                 ...state,
                 isAuthenticated: action.state
             }
+        }
         case SET_PICTURE:
             return {
                 ...state,

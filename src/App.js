@@ -9,8 +9,8 @@ import LoginCallback from "./components/Login/LoginCallback";
 function App() {
   return (
     <div className="App">
+      <LoginContainer />
       <Route path="/words" render={() => <WordsContainer />} />
-      <Route exact path="/login" render={() => <LoginContainer />} />
       <Route exact path="/login/callback" render={() => <LoginCallback />} />
     </div>
   );

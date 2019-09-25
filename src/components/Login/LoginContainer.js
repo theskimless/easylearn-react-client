@@ -2,26 +2,36 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import LoginView from "./LoginView";
 import {withRouter} from "react-router-dom";
-import {setAuth, requestPicture} from "../../redux/reducers/profileReducer";
-import {KJUR, b64utoutf8} from "jsrsasign";
+import {setAuth, requestPicture, logOut} from "../../redux/reducers/profileReducer";
+import { auth } from "../../api/api";
 
-function isTokenExpired(token) {
-    if(token) {
-        let payload = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(token.split(".")[1]));
-        if(payload.exp*1000 - Date.now() > 0) return false;
-    }
+function isTokenExpired() {
+    if(localStorage.getItem("expires_in") - Date.now() > 0) return false;
     return true;
 }
 
 let LoginContainer = props => {
+    // debugger;
     console.log("LOGIN COMPONENT");
 
-    if(!isTokenExpired(localStorage.getItem("id_token"))) {
-        props.setAuth(true);
+    if(localStorage.getItem("refresh_token")) {
+        if(isTokenExpired()) {
+            console.log("EXPIRED");
+            props.setAuth(false);
+            auth.refreshToken()
+                .then(() => {
+                        console.log("THEN");
+                        props.setAuth(true);
+                    })
+                .catch(err => console.log(err));
+        }
     }
-    else {
-        props.setAuth(false);
-    }
+
+    useEffect(() => {
+        if(!isTokenExpired()) {
+            props.setAuth(true);
+        }
+    }, []);
 
     useEffect(() => {
         if(props.isAuthenticated) {
@@ -31,7 +41,7 @@ let LoginContainer = props => {
         }
     }, [props.isAuthenticated]);
    
-    return <LoginView picture_url={props.picture_url} />;
+    return <LoginView logOutHandler={props.logOut} picture_url={props.picture_url} />;
 };
 
 const mapStateToProps = state => ({
@@ -41,7 +51,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setPicture: () => dispatch(requestPicture()),
-    setAuth: (state) => dispatch(setAuth(state))
+    setAuth: (state) => dispatch(setAuth(state)),
+    logOut: () => dispatch(logOut())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginContainer));

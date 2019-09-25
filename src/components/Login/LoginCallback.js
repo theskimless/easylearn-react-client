@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {withRouter, Redirect} from "react-router-dom";
 import {setAuth} from "../../redux/reducers/profileReducer";
 import {auth} from "../../api/api";
+import style from "./LoginCallback.module.css";
+import Loader from "../Loader/Loader";
 
 let LoginCallback = props => {
   let [redirect, setRedirect] = useState(false);
@@ -27,6 +29,7 @@ let LoginCallback = props => {
           auth.requestToken(query.code)
             .then(status => {
               if(status === 200) {
+                console.log("SET AUTH IN CALLBACK");
                 props.setAuth(true);
                 setRedirect(true);
               }
@@ -40,7 +43,7 @@ let LoginCallback = props => {
     return <Redirect to={"/login"} />;
   }
   
-  return <div>CALLBACK</div>
+  return <div className={style.wrapper}><Loader loaderSize="50" circleSize="5" circleColor="#369" circlesAmount="8" /></div>
 }
 
 const mapStateToProps = state => ({
