@@ -29,5 +29,6 @@ export const getWords = (limit) => dispatch => {
             if(res.status === 200) {
                 dispatch(setWords(res.data));
             }
-        });
+        })
+        .catch(err => console.log(err.response));
 }

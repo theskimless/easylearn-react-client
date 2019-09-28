@@ -1,22 +1,128 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
+body {
+  font: 16px/1.333 Arial, sans-serif;
+  background-color: #F6F6F6;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button {
+  border: none;
+  background: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+input {
+  background-color: #fff !important;
+  box-sizing: border-box !important;
+}
+
+/* BTNS */
+.round-btn {
+  box-shadow: 0 0 10px rgba(0,0,0,.08);
+
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  transition: box-shadow .3s;
+}
+.round-btn:hover {
+  box-shadow: 0 0 20px rgba(0,0,0,.2);
+}
+
+a {
+  text-decoration: none;
+  color: #369;
+} 
+
+.wrapper {
+  padding: 15px 0;
+}
+
+
+.container {
+  max-width: 768px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.block-shadow {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,.08);
+  border-radius: 6px;
+}
+
+.block-m {
+  margin-bottom: 20px;
+}
+
+/* LoginView */
+.login-block {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 15px;
+}
+
+.header-profile {
+  display: flex;
+}
+
+.header-profile__picture {
+  margin-right: 10px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.header-profile__picture img {
+  object-fit: cover;
+}
+.header-profile__info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #09d3ac;
+/* MENU */
+.navbar {
+  margin-bottom: 40px;
+}
+.tabs {
+  height: 38px;
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  display: flex;
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #1A6DF4;
+  transition: .3s;
+}
+
+/* NAVBAR */
+.tab {
+  width: 100%;
+  line-height: 38px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.tab:hover,
+.tab.active {
+  color: #1A6DF4;
+}
+
+.indicator {
+  background-color: #1A6DF4 !important;
 }

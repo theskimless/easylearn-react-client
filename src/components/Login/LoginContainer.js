@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import LoginView from "./LoginView";
 import {withRouter} from "react-router-dom";
-import {setAuth, requestPicture, logOut} from "../../redux/reducers/profileReducer";
+import {setAuth, requestUserinfo, logOut} from "../../redux/reducers/profileReducer";
 
 function isTokenExpired() {
     if(localStorage.getItem("expires_in") - Date.now() > 0) return false;
@@ -10,9 +10,7 @@ function isTokenExpired() {
 }
 
 let LoginContainer = props => {
-    // debugger;
-    console.log("LOGIN COMPONENT");
-    
+    // console.log("LOGIN COMPONENT");
     useEffect(() => {
         if(!props.isAuthenticated) {
             let refresh_token = localStorage.getItem("refresh_token");
@@ -23,21 +21,28 @@ let LoginContainer = props => {
             }
         }
         else {
-            console.log("SET PICTURE USE EFFECT");
-            props.setPicture();
+            // console.log("SET PICTURE USE EFFECT");
+            props.setUserinfo();
         }
     }, [props.isAuthenticated]);
    
-    return <LoginView logOutHandler={props.logOut} picture_url={props.picture_url} />;
+    return <LoginView
+        logOutHandler={props.logOut}
+        name={props.name}
+        email={props.email}
+        picture_url={props.picture_url}
+    />;
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.profile.isAuthenticated,
-    picture_url: state.profile.picture_url
+    picture_url: state.profile.picture_url,
+    email: state.profile.email,
+    name: state.profile.name
 });
 
 const mapDispatchToProps = dispatch => ({
-    setPicture: () => dispatch(requestPicture()),
+    setUserinfo: () => dispatch(requestUserinfo()),
     setAuth: (state) => dispatch(setAuth(state)),
     logOut: () => dispatch(logOut())
 });
