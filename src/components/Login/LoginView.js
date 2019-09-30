@@ -1,4 +1,5 @@
 import React from "react";
+import logoutImg from "../../logout.svg";
 
 const LoginView = props => {
 
@@ -22,7 +23,13 @@ const LoginView = props => {
                     <button>GET CODE</button>
                 </form>
 
-                <button onClick={props.logOutHandler}>Log out</button>
+                
+                <button onClick={props.logOutHandler}>
+                    <div className="logout-btn">
+                        <div className="logout-btn__icon"></div>
+                        <div className="logout-btn__mask"></div>
+                    </div>
+                </button>
                 </div>
         </div>
     );

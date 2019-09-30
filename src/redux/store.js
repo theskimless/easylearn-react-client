@@ -1,12 +1,12 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import wordsReducer from "./reducers/wordsReducer";
-import profileReducer from "./reducers/profileReducer";
+import profileReducer, {redirect} from "./reducers/profileReducer";
 import thunk from "redux-thunk";
 import {auth} from "../api/api";
 
 let reducers = combineReducers({
     profile: profileReducer,
-    words: wordsReducer,
+    wordsReducer,
 })
 
 const refreshTokenMiddleware = store => next => action => {
@@ -27,6 +27,7 @@ const refreshTokenMiddleware = store => next => action => {
         }
         else
         {
+            next(redirect("/"));
             console.log("YOU MUST LOG IN FIRST")
         }
     }

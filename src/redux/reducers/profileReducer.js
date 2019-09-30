@@ -5,8 +5,15 @@ const initialState = {
     picture_url: "",
     email: "",
     name: "",
-    notifications: []
+    notifications: [],
+    redirect: ""
 }
+
+const RESET_REDIRECT = "RESET_REDIRECT";
+export const resetRedirect = () => ({type: RESET_REDIRECT});
+
+const REDIRECT_TO_LOGIN = "REDIRECT_TO_LOGIN";
+export const redirect = to => ({type: REDIRECT_TO_LOGIN, to});
 
 const SET_PICTURE = "SET_PICTURE";
 export const setPicture = picture_url => ({type: SET_PICTURE, picture_url});
@@ -37,6 +44,19 @@ export const requestUserinfo = () => ({type: "withCreds", thunk: dispatch => {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RESET_REDIRECT: {
+            console.log("NE?");
+            return {
+                ...state,
+                redirect: ""
+            }
+        }
+        case REDIRECT_TO_LOGIN: {
+            return {
+                ...state,
+                redirect: action.to
+            }
+        }
         case SET_AUTH: {
             return {
                 ...state,

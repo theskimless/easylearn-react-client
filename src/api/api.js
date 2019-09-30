@@ -9,7 +9,11 @@ let instance = axios.create({
 
 export const wordsApi = {
     requestWords(limit = 2) {
-        return instance.get(`words?limit=${limit}`);
+        return axios.get(`https://127.0.0.1:5000/words?limit=${limit}`, {
+            headers: {
+                "Authorization": localStorage.getItem("access_token")
+            }
+        });
     }
 }
 
@@ -24,11 +28,13 @@ export const auth = {
     requestToken(authorizationCode) {
         return new Promise((resolve, reject) => {
             let form = new FormData();
+            
             form.append("code", authorizationCode);
             form.append("client_id", "632277419807-7k3fohav6n5dtrbhdrrga12vipr22qi5.apps.googleusercontent.com");
             form.append("client_secret", "gb-xu0MzAu4dFr8dAkJCc-hk");
             form.append("redirect_uri", "http://localhost:3000/login/callback");
             form.append("grant_type", "authorization_code");
+
             axios.post("https://oauth2.googleapis.com/token", form)
                 .then(res => {
                     console.log(res);
@@ -36,6 +42,12 @@ export const auth = {
                         localStorage.setItem("access_token", res.data["access_token"]);
                         localStorage.setItem("refresh_token", res.data["refresh_token"]);
                         localStorage.setItem("expires_in", res.data["expires_in"] * 1000 + Date.now());
+
+                        //REGISTER IN DB
+                        axios.post("https://127.0.0.1:5000/login", {access_token: res.data["access_token"]})
+                            .then(res => console.log(res))
+                            .catch(res => console.log(res.response));
+
                         resolve(res.status);
                     } 
                     // else if(res.status === 401) {

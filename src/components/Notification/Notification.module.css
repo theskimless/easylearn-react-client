@@ -1,35 +1,25 @@
 .wrapper {
-    position: fixed;
-    top: 30px;
-    left: 0;
-    right: 0;
     margin: 0 auto;
-    width: calc(100% - 30px);
-    display: none;
 }
 
-
-.block {
-    background: #fff;
-    box-shadow: 0 0 26px rgba(0,0,0,.5);
-    border-radius: 6px;
-    overflow: hidden;
+.block:not(:last-child) {
+    margin-bottom: 15px;
 }
 
 .blockTitle {
-    background: #1A6DF4;
     text-align: center;
     font-weight: bold;
     color: #fff;
     text-transform: uppercase;
     padding: 5px;
+    background: rgb(60, 133, 252);
 }
 
 .blockContent {
     padding: 5px;
 }
 
-.blockError .blockTitle {
+.blockError {
     background: rgb(199, 54, 54);
 }
 

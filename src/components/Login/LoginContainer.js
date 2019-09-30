@@ -2,30 +2,28 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import LoginView from "./LoginView";
 import {withRouter} from "react-router-dom";
-import {setAuth, requestUserinfo, logOut} from "../../redux/reducers/profileReducer";
-
-function isTokenExpired() {
-    if(localStorage.getItem("expires_in") - Date.now() > 0) return false;
-    return true;
-}
+import {setAuth, requestUserinfo, logOut, authenticate} from "../../redux/reducers/profileReducer";
 
 let LoginContainer = props => {
-    // console.log("LOGIN COMPONENT");
     useEffect(() => {
         if(!props.isAuthenticated) {
             let refresh_token = localStorage.getItem("refresh_token");
             let access_token = localStorage.getItem("access_token");
             let expires_in = localStorage.getItem("expires_in");
+            
             if(refresh_token && access_token && expires_in) {
-              props.setAuth(true);
+                props.setAuth(true);
+            }
+            else
+            {
+                // LOG IN
             }
         }
         else {
-            // console.log("SET PICTURE USE EFFECT");
             props.setUserinfo();
         }
     }, [props.isAuthenticated]);
-   
+
     return <LoginView
         logOutHandler={props.logOut}
         name={props.name}
