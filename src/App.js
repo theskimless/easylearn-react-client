@@ -9,7 +9,6 @@ import WordsContainer from "./components/Words/WordsContainer";
 import ProfileView from "./components/Profile/ProfileView";
 import axios from "axios";
 import RedirectContainer from './components/Redirect/RedirectContainer';
-import {auth} from "./api/api";
 
 function App() {
   return (
