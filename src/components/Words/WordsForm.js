@@ -7,7 +7,7 @@ export default props => {
 
     return (
         <>
-            <div className="text-center">
+            <div className="text-center block-m">
                 <button className="block-shadow round-btn plus-btn" onClick={() => toggleModal(true)}></button>
             </div>
 

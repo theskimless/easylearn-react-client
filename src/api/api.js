@@ -14,6 +14,15 @@ export const wordsApi = {
                 "Authorization": localStorage.getItem("access_token")
             }
         });
+    },
+    deleteWord(wordId) {
+        if(wordId) {
+            return axios.delete("https://127.0.0.1:5000/words?wordId=" + wordId, {
+                headers: {
+                    "Authorization": localStorage.getItem("access_token")
+                }
+            });
+        }
     }
 }
 
