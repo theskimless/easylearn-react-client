@@ -1,4 +1,5 @@
 import {auth} from "../../api/api";
+import { setNotifications } from "./notificationsReducer";
 
 const initialState = {
     isAuthenticated: false,
@@ -31,6 +32,23 @@ export const logOut = () => dispatch => {
             dispatch(setAuth(false));
         });
 }
+
+export const checkIfRegistered = () => ({type: "withCreds", thunk: dispatch => {
+    auth.checkIfRegistered()
+        .then(res => {
+            // console.log(res);
+            // console.log(2);
+            dispatch(setAuth(true));
+        })
+        .catch(err => {
+            if(!err.status) {
+                dispatch(setNotifications("app", [{type: "error", title: "Server error", message: "Try to reload page later..."}]))
+            }
+            else {
+                console.log(err.response);
+            }
+        });
+}});
 
 export const requestUserinfo = () => ({type: "withCreds", thunk: dispatch => {
     auth.getUserInfo()

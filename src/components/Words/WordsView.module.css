@@ -1,6 +1,34 @@
+.wordWrap {
+  display: flex;
+}
+
 .word {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  width: 100%;
+  height: 37px;
+  padding-left: 10px;
+}
+
+.type {
+  width: 80px;
+  height: 100%;
   padding: 0 10px;
+
+  background: #4285f4;
+  color: #fff;
+
+  text-align: center;
+  line-height: 37px;
+}
+
+.wordFuncsWrap {
+  margin-left: 15px;
+}
+
+.deleteWordBtn {
+  background: #fff url("../../imgs/trash.svg") center no-repeat;
+  background-size: 50%;
 }

@@ -1,17 +1,20 @@
 .wrapper {
-    margin: 0 auto;
+    margin: 0 auto 15px;
 }
-
+.block {
+    min-height: auto;
+}
 .block:not(:last-child) {
     margin-bottom: 15px;
 }
 
 .blockTitle {
+    box-sizing: border-box;
     text-align: center;
     font-weight: bold;
     color: #fff;
     text-transform: uppercase;
-    padding: 5px;
+    padding: 8px 5px;
     background: rgb(60, 133, 252);
 }
 

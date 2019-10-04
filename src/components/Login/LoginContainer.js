@@ -1,35 +1,19 @@
-import React, {useEffect} from "react";
-import {connect} from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { logOut } from "../../redux/reducers/profileReducer";
 import LoginView from "./LoginView";
-import {withRouter} from "react-router-dom";
-import {setAuth, requestUserinfo, logOut, authenticate} from "../../redux/reducers/profileReducer";
 
 let LoginContainer = props => {
-    useEffect(() => {
-        if(!props.isAuthenticated) {
-            let refresh_token = localStorage.getItem("refresh_token");
-            let access_token = localStorage.getItem("access_token");
-            let expires_in = localStorage.getItem("expires_in");
-            
-            if(refresh_token && access_token && expires_in) {
-                props.setAuth(true);
-            }
-            else
-            {
-                // LOG IN
-            }
-        }
-        else {
-            props.setUserinfo();
-        }
-    }, [props.isAuthenticated]);
-
-    return <LoginView
-        logOutHandler={props.logOut}
-        name={props.name}
-        email={props.email}
-        picture_url={props.picture_url}
-    />;
+    if(props.isAuthenticated) {
+        return <LoginView
+            logOutHandler={props.logOut}
+            name={props.name}
+            email={props.email}
+            picture_url={props.picture_url}
+        />
+    }
+    else return <></>;
 };
 
 const mapStateToProps = state => ({
@@ -40,9 +24,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    setUserinfo: () => dispatch(requestUserinfo()),
-    setAuth: (state) => dispatch(setAuth(state)),
-    logOut: () => dispatch(logOut())
+    logOut: () => dispatch(logOut()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginContainer));

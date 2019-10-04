@@ -1,30 +1,43 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import WordsView from "./WordsView";
 import WordsForm from "./WordsForm";
-import {getWords, deleteWord} from "../../redux/reducers/wordsReducer";
+import WordsView from "./WordsView";
+import {getWords, addWord, deleteWord} from "../../redux/reducers/wordsReducer";
 import Loader from '../Loader/Loader';
 import NotificationsContainer from "../Notification/NotificationsContainer";
+import {setNotifications} from "../../redux/reducers/notificationsReducer";
+import {types} from "../../utils/consts";
 
 const WordsContainer = props => {
     useEffect(() => {
-        console.log("USE EFFECT WORDS CONTAINER")
-
-        props.getWords(4);
-    }, []);
+        if(props.isAuthenticated) {
+            props.getWords(4);
+        }
+        else {
+            props.setNotifications("words", [{type: "error", title: "No access to words", message: "You aren't logged in"}]);
+        }
+    }, [props.isAuthenticated]);
 
     return (
         <>
+            {
+                props.isAuthenticated && <WordsForm addWord={props.addWord} />
+            }
             <NotificationsContainer width="576" notifications={props.notifications} />
             {
-                props.words.length !== 0 ? 
+                props.isAuthenticated &&
                 (
                     <>
-                        <WordsForm />
-                        <WordsView onDeleteWord={props.deleteWord} words={props.words} />
+                        {
+                            props.isFetching && 
+                            <div className="loader-wrapper"><Loader loaderSize="50" circleSize="5" circleColor="#369" circlesAmount="8" /></div>
+                        }
+                        {
+                            props.words.length !== 0 &&
+                            <WordsView deleteWord={props.deleteWord} words={props.words} types={types} />
+                        }
                     </>
-                ):
-                props.notifications.length === 0 && <div className="loader-wrapper"><Loader loaderSize="50" circleSize="5" circleColor="#369" circlesAmount="8" /></div>
+                )
             }
         </>
     );
@@ -32,7 +45,9 @@ const WordsContainer = props => {
 
 const mapStateToProps = state => ({
    words: state.wordsReducer.words,
-   notifications: state.wordsReducer.notifications
+   isFetching: state.wordsReducer.isFetching,
+   notifications: state.notificationsReducer.words,
+   isAuthenticated: state.profile.isAuthenticated
 });
 
-export default connect(mapStateToProps, {getWords, deleteWord})(WordsContainer);
+export default connect(mapStateToProps, {getWords, addWord, deleteWord, setNotifications})(WordsContainer);

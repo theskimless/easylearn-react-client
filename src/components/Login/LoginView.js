@@ -1,5 +1,5 @@
 import React from "react";
-import logoutImg from "../../logout.svg";
+import LoginBtn from "../Login/LoginBtn";
 
 const LoginView = props => {
 
@@ -14,20 +14,12 @@ const LoginView = props => {
             </div>
 
             <div>
-                <form action="https://accounts.google.com/o/oauth2/v2/auth" method="get">
-                    <input type="hidden" name="client_id" value="632277419807-7k3fohav6n5dtrbhdrrga12vipr22qi5.apps.googleusercontent.com" />
-                    <input type="hidden" name="redirect_uri" value="http://localhost:3000/login/callback" />
-                    <input type="hidden" name="access_type" value="offline" />
-                    <input type="hidden" name="response_type" value="code" />
-                    <input type="hidden" name="scope" value="openid email profile" />
-                    <button>GET CODE</button>
-                </form>
-
+                {/* <LoginBtn /> */}
                 
                 <button onClick={props.logOutHandler}>
                     <div className="logout-btn">
                         <div className="logout-btn__icon"></div>
-                        <div className="logout-btn__mask"></div>
+                        <div className="logout-btn__mask">Log out</div>
                     </div>
                 </button>
                 </div>

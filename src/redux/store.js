@@ -1,5 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import wordsReducer from "./reducers/wordsReducer";
+import notificationsReducer from "./reducers/notificationsReducer";
 import profileReducer, {redirect} from "./reducers/profileReducer";
 import thunk from "redux-thunk";
 import {auth} from "../api/api";
@@ -7,6 +8,7 @@ import {auth} from "../api/api";
 let reducers = combineReducers({
     profile: profileReducer,
     wordsReducer,
+    notificationsReducer
 })
 
 const refreshTokenMiddleware = store => next => action => {
@@ -18,21 +20,20 @@ const refreshTokenMiddleware = store => next => action => {
             if(expires_in - Date.now() < 0) {
                 auth.refreshToken()
                     .then(() => {
-                        next(action.thunk);
+                        return next(action.thunk);
                     });
             }
             else {
-                next(action.thunk);
+                return next(action.thunk);
             }
         }
         else
         {
-            next(redirect("/"));
-            console.log("YOU MUST LOG IN FIRST")
+            return next(redirect("/"));
         }
     }
     else {
-        next(action);
+        return next(action);
     }
 }
 

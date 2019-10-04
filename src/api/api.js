@@ -11,7 +11,7 @@ export const wordsApi = {
     requestWords(limit = 2) {
         return axios.get(`https://127.0.0.1:5000/words?limit=${limit}`, {
             headers: {
-                "Authorization": localStorage.getItem("access_token")
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
             }
         });
     },
@@ -19,16 +19,30 @@ export const wordsApi = {
         if(wordId) {
             return axios.delete("https://127.0.0.1:5000/words?wordId=" + wordId, {
                 headers: {
-                    "Authorization": localStorage.getItem("access_token")
+                    "Authorization": "Bearer " + localStorage.getItem("access_token")
                 }
             });
         }
+    },
+    addWord(wordFormData) {
+        return axios.post("https://127.0.0.1:5000/words", wordFormData, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
     }
 }
 
 export const auth = {
     getUserInfo() {
         return axios.get("https://openidconnect.googleapis.com/v1/userinfo", {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
+    },
+    checkIfRegistered() {
+        return axios.get("https://127.0.0.1:5000/login", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("access_token")
             }
@@ -43,17 +57,21 @@ export const auth = {
             form.append("client_secret", "gb-xu0MzAu4dFr8dAkJCc-hk");
             form.append("redirect_uri", "http://localhost:3000/login/callback");
             form.append("grant_type", "authorization_code");
-
             axios.post("https://oauth2.googleapis.com/token", form)
-                .then(res => {
+            .then(res => {
                     console.log(res);
                     if(res.status === 200) {
                         localStorage.setItem("access_token", res.data["access_token"]);
                         localStorage.setItem("refresh_token", res.data["refresh_token"]);
                         localStorage.setItem("expires_in", res.data["expires_in"] * 1000 + Date.now());
-
+                        
+                        console.log("HERE WE TRY TO REGISTER");
                         //REGISTER IN DB
-                        axios.post("https://127.0.0.1:5000/login", {access_token: res.data["access_token"]})
+                        axios.post("https://127.0.0.1:5000/login", {}, {
+                            headers: {
+                                "Authorization": "Bearer " + res.data["access_token"]
+                            }
+                        })
                             .then(res => console.log(res))
                             .catch(res => console.log(res.response));
 
@@ -78,6 +96,7 @@ export const auth = {
                     if(res.status === 200) {
                         localStorage.setItem("access_token", res.data["access_token"]);
                         localStorage.setItem("expires_in", res.data["expires_in"] * 1000 + Date.now());
+                        
                         resolve();
                     }
                 })
