@@ -34,6 +34,7 @@ export const logOut = () => dispatch => {
 }
 
 export const checkIfRegistered = () => ({type: "withCreds", thunk: dispatch => {
+    console.log("PROFILE REDUCER");
     auth.checkIfRegistered()
         .then(res => {
             // console.log(res);

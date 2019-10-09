@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import WordsForm from "./WordsForm";
 import WordsView from "./WordsView";
-import {getWords, addWord, deleteWord} from "../../redux/reducers/wordsReducer";
+import {getWords, addWord, deleteWord, notifyNoWords} from "../../redux/reducers/wordsReducer";
 import Loader from '../Loader/Loader';
 import NotificationsContainer from "../Notification/NotificationsContainer";
 import {setNotifications} from "../../redux/reducers/notificationsReducer";
@@ -18,10 +18,19 @@ const WordsContainer = props => {
         }
     }, [props.isAuthenticated]);
 
+    useEffect(() => {
+        console.log("BEFORE isFetching");
+        if(!props.isFetching) {
+            console.log("NOTIFY WORDS");
+            props.notifyNoWords(props.words);
+        }
+    }, [props.words, props.isFetching]);
+
+    console.log("RELOAD WORDS");
     return (
         <>
             {
-                props.isAuthenticated && <WordsForm addWord={props.addWord} />
+                props.isAuthenticated && <WordsForm addWord={props.addWord} messages={props.wordsFormMessages} />
             }
             <NotificationsContainer width="576" notifications={props.notifications} />
             {
@@ -47,7 +56,8 @@ const mapStateToProps = state => ({
    words: state.wordsReducer.words,
    isFetching: state.wordsReducer.isFetching,
    notifications: state.notificationsReducer.words,
-   isAuthenticated: state.profile.isAuthenticated
+   isAuthenticated: state.profile.isAuthenticated,
+   wordsFormMessages: state.wordsReducer.wordsFormMessages
 });
 
-export default connect(mapStateToProps, {getWords, addWord, deleteWord, setNotifications})(WordsContainer);
+export default connect(mapStateToProps, {getWords, addWord, deleteWord, setNotifications, notifyNoWords})(WordsContainer);

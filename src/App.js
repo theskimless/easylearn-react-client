@@ -21,7 +21,7 @@ function App(props) {
       let expires_in = localStorage.getItem("expires_in");
       
       if(refresh_token && access_token && expires_in) {
-          props.checkIfRegistered();
+        props.checkIfRegistered();
       }
       // else
       // {
@@ -45,13 +45,23 @@ function App(props) {
     <div className="wrapper container">
       <RedirectContainer />
       <Route exact path="/login/callback" render={() => <LoginCallback />} />
-      <NotificationsContainer width="576" notifications={props.notifications} />
-
-      <LoginContainer />
-      <MenuContainer />
+      {
+        props.isAuthenticated ?
+        (
+          <>
+            <NotificationsContainer width="576" notifications={props.notifications} />
       
-      <Route exact path="/" render={() => <WordsContainer />} />
-      <Route path="/profile" render={() => <ProfileView />} />
+            <LoginContainer />
+            <MenuContainer />
+            
+            <Route exact path="/" render={() => <WordsContainer />} />
+            <Route path="/profile" render={() => <ProfileView />} />
+          </>
+        ):
+        <div className="text-center">
+          <LoginBtn />
+        </div>
+      }
     </div>
   );
 }

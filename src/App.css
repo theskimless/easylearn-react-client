@@ -81,28 +81,33 @@ a {
   top: 50%;
   left: 50%;
   transform-origin: center;
-  transform: translateY(-50%);
 
   width: 2px;
   height: 60%;
   background: #000;
+  border-radius: 4px;
 
   content: "";
+  transition: .3s;
 }
 .plus-btn:before {
-  /* display: none; */
+  transform: translateX(-50%) translateY(-50%);
 }
 .plus-btn:after {
-  /* left: 0; */
   background: #000;
   transform: rotate(90deg) translateY(-50%);
   transform-origin: center 0;
 }
-
 .plus-btn:hover {
   background-color: #4285f4;
 }
-
+.plus-btn:hover:after {
+  transform: translateX(-50%) translateY(-50%);
+}
+.plus-btn:hover:before {
+  transform-origin: center 0;
+  transform: rotate(90deg) translateY(-50%);
+}
 
 .wrapper {
   padding: 15px 0;
@@ -143,6 +148,26 @@ a {
 .form-field__title {
   color: #777;
   margin-bottom: 5px;
+}
+.form-field__error {
+  position: relative;
+  margin-bottom: 5px;
+  margin-left: 15px;
+  color: #eb354a;
+  font-size: 0.9em;
+}
+.form-field__error:before {
+  position: absolute;
+  left: -10px;
+  top: 50%;
+
+  background: #eb354a;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  
+  content: "";
 }
 
 /* LoginView */

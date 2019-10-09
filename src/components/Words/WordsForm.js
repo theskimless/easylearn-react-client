@@ -8,16 +8,29 @@ import {types} from "../../utils/consts";
 export default props => {
     let [isModalOpened, toggleModal] = useState(false);
 
-    let inputs = inputHelper({
-        word: useInput(""),
+    function validateWord(word) {
+        const minLength = 2;
+        let errors = [];
+        if(word.length < minLength) {
+            errors.push("Word's length can't be less then " + minLength);
+        }
+        return errors;
+    }
+    let [inputs, validate] = inputHelper({
+        word: useInput("", validateWord),
         type: useInput(0)
     });
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        let form = new FormData(e.target);
-        props.addWord(form);
+        // console.log(test);
+        // console.log(inputs);
+        validate();
+        // if(isValid) {
+        //     let form = new FormData(e.target);
+        //     props.addWord(form);
+        // }
     }
 
     return (
@@ -27,10 +40,11 @@ export default props => {
             </div>
 
             {isModalOpened && (
-                <Modal title="Add word" onClose={() => toggleModal(false)}>
+                <Modal title="Add word" messages={props.messages} onClose={() => toggleModal(false)}>
                     <form onSubmit={handleSubmit}>
                         <div className="form-field">
                             <div className="form-field__title">Word</div>
+                            {inputs.word.errors.map((item, key) => <div key={key} className="form-field__error">{item}</div>)}
                             <input type="text" {...inputs.word.bind} />
                         </div>
 

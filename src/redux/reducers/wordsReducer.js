@@ -12,7 +12,8 @@ import {setNotifications} from "./notificationsReducer";
 
 const initialState = {
     words: [],
-    isFetching: false
+    isFetching: false,
+    wordsFormMessages: []
 };
 
 // ACTIONS
@@ -28,7 +29,15 @@ export const pushWord = (word) => ({type: PUSH_WORD, word});
 const SET_FETCHING = "SET_FETCHING";
 export const setFetching = (state) => ({type: SET_FETCHING, state});
 
+const SET_WORDS_FORM_MESSAGES = "SET_WORDS_FORM_MESSAGES";
+export const setWordsFormMessages = (messages) => ({type: SET_WORDS_FORM_MESSAGES, messages});
+
 // THUNKS
+export const notifyNoWords = (words) => dispatch => {
+    if(words.length === 0)
+    dispatch(setNotifications("words", [{type: "", title: "You have no words"}]))
+};
+
 export const deleteWord = wordId => dispatch => {
     wordsApi.deleteWord(wordId)
         .then(res => {
@@ -52,12 +61,18 @@ export const addWord = (wordFormData) => ({
                 console.log(err.response)
                 let errorMessage;
                 if(err.response && err.response.status === 400 && (errorMessage = err.response.data.message)) {
-                    dispatch(setNotifications("words",
+                    // dispatch(setNotifications("words",
+                    //     Object.keys(errorMessage).map((key) => ({
+                    //         type: "error",
+                    //         title: key,
+                    //         message: errorMessage[key]
+                    //     }))    
+                    // ));
+                    dispatch(setWordsFormMessages(
                         Object.keys(errorMessage).map((key) => ({
-                            type: "error",
                             title: key,
                             message: errorMessage[key]
-                        }))    
+                        }))
                     ));
                 }
             });
@@ -72,7 +87,7 @@ export const getWords = (limit) => ({
         .then(res => {
             if(res.status === 200) {
                 dispatch(setNotifications("words", []));
-                res.data.length !== 0 ? dispatch(setWords(res.data)) : dispatch(setNotifications("words", [{type: "", title: "You have no words"}]));;
+                res.data.length !== 0 && dispatch(setWords(res.data));
                 dispatch(setFetching(false));
             }
         })
@@ -108,6 +123,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 words: action.words
+            };
+        case SET_WORDS_FORM_MESSAGES:
+            return {
+                ...state,
+                wordsFormMessages: action.messages
             };
         default:
             return state;
