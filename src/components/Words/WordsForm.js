@@ -1,13 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import Modal from "../Modal/Modal";
 import useInput from "../../utils/useInput";
 import inputHelper from "../../utils/inputHelper";
 import {types} from "../../utils/consts";
 
-
 export default props => {
-    let [isModalOpened, toggleModal] = useState(false);
-
     function validateWord(word) {
         const minLength = 2;
         let errors = [];
@@ -16,7 +13,11 @@ export default props => {
         }
         return errors;
     }
-    let [inputs, validate] = inputHelper({
+
+    let [inputs, validateForm] = props.mode === "edit" ? inputHelper({
+        word: useInput(props.word.name, validateWord),
+        type: useInput(props.word.type)
+    }) : inputHelper({
         word: useInput("", validateWord),
         type: useInput(0)
     });
@@ -24,23 +25,17 @@ export default props => {
     function handleSubmit(e) {
         e.preventDefault();
 
-        // console.log(test);
-        // console.log(inputs);
-        validate();
-        // if(isValid) {
-        //     let form = new FormData(e.target);
-        //     props.addWord(form);
-        // }
+        if(validateForm()) {
+            let form = new FormData(e.target);
+            if(props.mode === "add") props.addWord(form);
+            else if(props.mode === "edit") console.log("NOT IMPLEMENTSD");
+        }
     }
 
     return (
         <>
-            <div className="text-center block-m">
-                <button className="block-shadow round-btn plus-btn" onClick={() => toggleModal(true)}></button>
-            </div>
-
-            {isModalOpened && (
-                <Modal title="Add word" messages={props.messages} onClose={() => toggleModal(false)}>
+            {props.isModalOpened && (
+                <Modal title={props.mode + " word"} messages={props.messages} onClose={props.onModalClose}>
                     <form onSubmit={handleSubmit}>
                         <div className="form-field">
                             <div className="form-field__title">Word</div>
@@ -58,7 +53,7 @@ export default props => {
                         </div>
 
                         <div className="text-center">
-                            <button className="button">Add word</button>
+                            <button className="button">{props.mode + " word"}</button>
                         </div>
                     </form>
                 </Modal>

@@ -1,14 +1,14 @@
 export default function(obj) {
-    // let isValid = true;
     function validate() {
+        let isValid = true;
         for(let key in obj) {
-            obj[key].validate();
-            console.log(obj[key]);
+            let isInputValid = obj[key].validate();
+            if(isValid && !isInputValid) isValid = false;
         }
+        return isValid;
     }
     for(let key in obj) {
         obj[key].bind["name"] = key;
-        // isValid = isValid && obj[key].errors.length === 0;
     }
     return [obj, validate];
 }

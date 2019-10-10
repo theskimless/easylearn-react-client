@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import style from "./Modal.module.css";
 
 export default props => {
-    let [root, setRoot] = useState(document.createElement("div"));
+    let root = useState(document.createElement("div"))[0];
     
     useEffect(() => {
         document.body.appendChild(root);

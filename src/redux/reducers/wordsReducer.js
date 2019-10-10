@@ -46,7 +46,7 @@ export const deleteWord = wordId => dispatch => {
             }
         })
         .catch(err => console.log(err.response));
-}
+};
 
 export const addWord = (wordFormData) => ({
     type: "withCreds",
@@ -77,7 +77,7 @@ export const addWord = (wordFormData) => ({
                 }
             });
     }
-})
+});
 
 export const getWords = (limit) => ({
     type: "withCreds",
@@ -132,4 +132,4 @@ export default (state = initialState, action) => {
         default:
             return state;
     }
-}
+};

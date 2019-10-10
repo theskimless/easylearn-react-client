@@ -2,11 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { logOut } from "../../redux/reducers/profileReducer";
-import LoginView from "./LoginView";
+import ProfileView from "./ProfileView";
 
-let LoginContainer = props => {
+let ProfileContainer = props => {
     if(props.isAuthenticated) {
-        return <LoginView
+        return <ProfileView
             logOutHandler={props.logOut}
             name={props.name}
             email={props.email}
@@ -27,4 +27,4 @@ const mapDispatchToProps = dispatch => ({
     logOut: () => dispatch(logOut()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProfileContainer));

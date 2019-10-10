@@ -8,7 +8,7 @@ export default props => {
             <input type="hidden" name="access_type" value="offline" />
             <input type="hidden" name="response_type" value="code" />
             <input type="hidden" name="scope" value="openid email profile" />
-            <button className="button">Log In</button>
+            <button className={props.class}>Log In</button>
         </form>
     );
 };

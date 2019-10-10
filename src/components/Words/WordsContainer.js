@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import WordsForm from "./WordsForm";
 import WordsView from "./WordsView";
@@ -9,8 +9,33 @@ import {setNotifications} from "../../redux/reducers/notificationsReducer";
 import {types} from "../../utils/consts";
 
 const WordsContainer = props => {
+    let [isAddModalOpened, toggleAddModal] = useState(false);
+    let [isEditModalOpened, toggleEditModal] = useState(false);
+    // let [modalMode, toggleModalMode] = useState("edit");
+    let [word, setWord] = useState({});
+
+    function editWordInModal(wordId) {
+        setWord(props.words.find(word => word.id === wordId));
+    }
+    
+    useEffect(() => {
+        // console.log("SASDDSA", word);
+        if(Object.keys(word).length !== 0) {
+            // console.log("!!!!!!!!!!!!!!!!!!!!!", word);
+            toggleAddModal(false);
+            toggleEditModal(true);
+        }
+
+    }, [word]);
+
+    function addWordInModal() {
+        toggleAddModal(true);
+        toggleEditModal(false);
+    }
+
     useEffect(() => {
         if(props.isAuthenticated) {
+            console.log("LOADING WORDS");
             props.getWords(4);
         }
         else {
@@ -30,7 +55,29 @@ const WordsContainer = props => {
     return (
         <>
             {
-                props.isAuthenticated && <WordsForm addWord={props.addWord} messages={props.wordsFormMessages} />
+                props.isAuthenticated && 
+                (
+                    <>
+                        <div className="text-center block-m">
+                            <button className="block-shadow round-btn plus-btn" onClick={addWordInModal}></button>
+                        </div>
+                        <WordsForm
+                            mode={"add"}
+                            isModalOpened={isAddModalOpened} 
+                            onModalClose={() => toggleAddModal(false)} 
+                            addWord={props.addWord} 
+                            messages={props.wordsFormMessages} 
+                            />
+                        <WordsForm
+                            mode={"edit"}
+                            word={word}
+                            isModalOpened={isEditModalOpened} 
+                            onModalClose={() => toggleEditModal(false)} 
+                            addWord={props.addWord} 
+                            messages={props.wordsFormMessages} 
+                            />
+                    </>
+                )
             }
             <NotificationsContainer width="576" notifications={props.notifications} />
             {
@@ -43,14 +90,14 @@ const WordsContainer = props => {
                         }
                         {
                             props.words.length !== 0 &&
-                            <WordsView deleteWord={props.deleteWord} words={props.words} types={types} />
+                            <WordsView deleteWord={props.deleteWord} editWord={editWordInModal} words={props.words} types={types} />
                         }
                     </>
                 )
             }
         </>
     );
-}
+};
 
 const mapStateToProps = state => ({
    words: state.wordsReducer.words,

@@ -3,15 +3,15 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import { checkIfRegistered, requestUserinfo, setAuth } from "./redux/reducers/profileReducer";
 import './App.css';
-import LoginBtn from "./components/Login/LoginBtn";
 import LoginCallback from "./components/Login/LoginCallback";
-import LoginContainer from "./components/Login/LoginContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 import MenuContainer from "./components/Menu/MenuContainer";
 import NotificationsContainer from "./components/Notification/NotificationsContainer";
-import ProfileView from "./components/Profile/ProfileView";
+import Redundant from "./components/Redundant/Redundant";
 import RedirectContainer from './components/Redirect/RedirectContainer';
 import WordsContainer from "./components/Words/WordsContainer";
 import { clearNotifications, setNotifications } from "./redux/reducers/notificationsReducer";
+import LoginView from "./components/Login/LoginView";
 
 function App(props) {
   useEffect(() => {
@@ -23,16 +23,12 @@ function App(props) {
       if(refresh_token && access_token && expires_in) {
         props.checkIfRegistered();
       }
-      // else
-      // {
-          // LOG IN
-      // }
 
-      props.setNotifications("app", [{
-          type: "error", 
-          title: "You are not logged in", 
-          message: <div className="text-center"><LoginBtn /></div>
-      }]);
+      // props.setNotifications("app", [{
+      //     type: "error", 
+      //     title: "You are not logged in", 
+      //     message: <div className="text-center"><LoginBtn /></div>
+      // }]);
     }
     else {
       props.clearNotifications("app");
@@ -43,24 +39,22 @@ function App(props) {
 
   return (
     <div className="wrapper container">
+    <NotificationsContainer width="576" notifications={props.notifications} />
       <RedirectContainer />
       <Route exact path="/login/callback" render={() => <LoginCallback />} />
       {
         props.isAuthenticated ?
         (
           <>
-            <NotificationsContainer width="576" notifications={props.notifications} />
       
-            <LoginContainer />
+            <ProfileContainer />
             <MenuContainer />
             
             <Route exact path="/" render={() => <WordsContainer />} />
-            <Route path="/profile" render={() => <ProfileView />} />
+            <Route path="/redundant" render={() => <Redundant />} />
           </>
         ):
-        <div className="text-center">
-          <LoginBtn />
-        </div>
+        <LoginView />
       }
     </div>
   );

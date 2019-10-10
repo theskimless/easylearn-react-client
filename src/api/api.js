@@ -3,9 +3,9 @@ import axios from "axios";
 
 const baseURL = "https://127.0.0.1:5000/";
 
-let instance = axios.create({
-    baseURL
-});
+// let instance = axios.create({
+//     baseURL
+// });
 
 export const wordsApi = {
     requestWords(limit = 2) {
@@ -31,7 +31,7 @@ export const wordsApi = {
             }
         });
     }
-}
+};
 
 export const auth = {
     getUserInfo() {
@@ -42,7 +42,7 @@ export const auth = {
         });
     },
     checkIfRegistered() {
-        console.log("sadsad");
+        console.log("CHECK IF REGISTERED");
         return axios.get("https://127.0.0.1:5000/login", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("access_token")
@@ -86,7 +86,6 @@ export const auth = {
     },
     refreshToken() {
         return new Promise((resolve, reject) => {
-            console.log(1);
             let form = new FormData();
             form.append("client_id", "632277419807-7k3fohav6n5dtrbhdrrga12vipr22qi5.apps.googleusercontent.com");
             form.append("client_secret", "gb-xu0MzAu4dFr8dAkJCc-hk");
@@ -113,4 +112,4 @@ export const auth = {
         localStorage.clear();
         return axios.get(`https://accounts.google.com/o/oauth2/revoke?token=${token}`);
     }
-}
+};

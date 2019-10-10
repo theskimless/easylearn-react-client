@@ -25,10 +25,19 @@
 }
 
 .wordFuncsWrap {
+  display: flex;
+}
+
+.wordFuncsWrap > button {
+  display: inline-block;
   margin-left: 15px;
 }
 
 .deleteWordBtn {
   background: #fff url("../../imgs/trash.svg") center no-repeat;
+  background-size: 50%;
+}
+.editWordBtn {
+  background: #fff url("../../imgs/pencil.svg") center no-repeat;
   background-size: 50%;
 }

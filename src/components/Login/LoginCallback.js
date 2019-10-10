@@ -44,7 +44,7 @@ let LoginCallback = props => {
   }
   
   return <div className={style.wrapper}><Loader loaderSize="50" circleSize="5" circleColor="#369" circlesAmount="8" /></div>
-}
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.profile.isAuthenticated
