@@ -14,28 +14,24 @@ export default props => {
         return errors;
     }
 
-    let [inputs, validateForm] = props.mode === "edit" ? inputHelper({
-        word: useInput(props.word.name, validateWord),
-        type: useInput(props.word.type)
-    }) : inputHelper({
+    let [inputs, validateForm] = inputHelper({
         word: useInput("", validateWord),
         type: useInput(0)
     });
 
     function handleSubmit(e) {
         e.preventDefault();
-
+        console.log(validateForm());
         if(validateForm()) {
-            let form = new FormData(e.target);
-            if(props.mode === "add") props.addWord(form);
-            else if(props.mode === "edit") console.log("NOT IMPLEMENTSD");
+            // let form = new FormData(e.target);
+            // props.addWord(form);
         }
     }
 
     return (
         <>
             {props.isModalOpened && (
-                <Modal title={props.mode + " word"} messages={props.messages} onClose={props.onModalClose}>
+                <Modal title="Add word" messages={props.messages} onClose={props.onModalClose}>
                     <form onSubmit={handleSubmit}>
                         <div className="form-field">
                             <div className="form-field__title">Word</div>
@@ -53,7 +49,7 @@ export default props => {
                         </div>
 
                         <div className="text-center">
-                            <button className="button">{props.mode + " word"}</button>
+                            <button className="button">Add word</button>
                         </div>
                     </form>
                 </Modal>

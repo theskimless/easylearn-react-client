@@ -9,29 +9,7 @@ import {setNotifications} from "../../redux/reducers/notificationsReducer";
 import {types} from "../../utils/consts";
 
 const WordsContainer = props => {
-    let [isAddModalOpened, toggleAddModal] = useState(false);
-    let [isEditModalOpened, toggleEditModal] = useState(false);
-    // let [modalMode, toggleModalMode] = useState("edit");
-    let [word, setWord] = useState({});
-
-    function editWordInModal(wordId) {
-        setWord(props.words.find(word => word.id === wordId));
-    }
-    
-    useEffect(() => {
-        // console.log("SASDDSA", word);
-        if(Object.keys(word).length !== 0) {
-            // console.log("!!!!!!!!!!!!!!!!!!!!!", word);
-            toggleAddModal(false);
-            toggleEditModal(true);
-        }
-
-    }, [word]);
-
-    function addWordInModal() {
-        toggleAddModal(true);
-        toggleEditModal(false);
-    }
+    let [isModalOpened, toggleModal] = useState(false);
 
     useEffect(() => {
         if(props.isAuthenticated) {
@@ -59,20 +37,11 @@ const WordsContainer = props => {
                 (
                     <>
                         <div className="text-center block-m">
-                            <button className="block-shadow round-btn plus-btn" onClick={addWordInModal}></button>
+                            <button className="block-shadow round-btn plus-btn" onClick={() => toggleModal(true)}></button>
                         </div>
                         <WordsForm
-                            mode={"add"}
-                            isModalOpened={isAddModalOpened} 
-                            onModalClose={() => toggleAddModal(false)} 
-                            addWord={props.addWord} 
-                            messages={props.wordsFormMessages} 
-                            />
-                        <WordsForm
-                            mode={"edit"}
-                            word={word}
-                            isModalOpened={isEditModalOpened} 
-                            onModalClose={() => toggleEditModal(false)} 
+                            isModalOpened={isModalOpened} 
+                            onModalClose={() => toggleModal(false)} 
                             addWord={props.addWord} 
                             messages={props.wordsFormMessages} 
                             />
@@ -90,7 +59,7 @@ const WordsContainer = props => {
                         }
                         {
                             props.words.length !== 0 &&
-                            <WordsView deleteWord={props.deleteWord} editWord={editWordInModal} words={props.words} types={types} />
+                            <WordsView deleteWord={props.deleteWord} editWord={() => console.log("Not implemented yet")} words={props.words} types={types} />
                         }
                     </>
                 )
