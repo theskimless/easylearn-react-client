@@ -30,6 +30,13 @@ export const wordsApi = {
                 "Authorization": "Bearer " + localStorage.getItem("access_token")
             }
         });
+    },
+    editWord(wordFormData) {
+        return axios.put("https://127.0.0.1:5000/words", wordFormData, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
     }
 };
 

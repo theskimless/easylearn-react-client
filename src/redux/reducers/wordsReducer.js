@@ -79,6 +79,24 @@ export const addWord = (wordFormData) => ({
     }
 });
 
+export const requestEditWord = (word) => ({
+    type: "withCreds",
+    thunk: dispatch => {
+        wordsApi.editWord(word)
+        .then(res => {
+            console.log(res);
+            if(res.status === 200) {
+                dispatch(editWord(res.data));
+            }
+        })
+        .catch(err => console.log(err));
+        // console.log(word);
+    }
+})
+
+const EDIT_WORD = "EDIT_WORD";
+export const editWord = (word) => ({type: EDIT_WORD, word});
+
 export const getWords = (limit) => ({
     type: "withCreds",
     thunk: dispatch => {
@@ -106,6 +124,17 @@ export default (state = initialState, action) => {
                 ...state,
                 isFetching: action.state
             }
+        case EDIT_WORD: {
+            return {
+                ...state,
+                words: state.words.map(item => {
+                    if(item.id === action.word.id) {
+                        return action.word;
+                    }
+                    return item;
+                })
+            };
+        }
         case PUSH_WORD:
             return {
                 ...state,

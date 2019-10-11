@@ -4,17 +4,14 @@ export default (initialValue, callback) => {
     let [value, setValue] = useState(initialValue);
     let [errors, setErrors] = useState([]);
 
-    useEffect(() => {
-        data.errors = errors;
-    }, [errors]);
-
     let data = {
         value,
         setValue,
         errors,
         validate: () => {
             if(callback) {
-                setErrors(callback(value));
+                let errors = callback(value);
+                setErrors(errors);
                 if(errors.length !== 0) return false;
             }
             return true;

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import WordsForm from "./WordsForm";
 import WordsView from "./WordsView";
-import {getWords, addWord, deleteWord, notifyNoWords} from "../../redux/reducers/wordsReducer";
+import {getWords, addWord, requestEditWord, deleteWord, notifyNoWords} from "../../redux/reducers/wordsReducer";
 import Loader from '../Loader/Loader';
 import NotificationsContainer from "../Notification/NotificationsContainer";
 import {setNotifications} from "../../redux/reducers/notificationsReducer";
@@ -10,6 +10,8 @@ import {types} from "../../utils/consts";
 
 const WordsContainer = props => {
     let [isModalOpened, toggleModal] = useState(false);
+    let [mode, setMode] = useState("add");
+    let [word, setWord] = useState({});
 
     useEffect(() => {
         if(props.isAuthenticated) {
@@ -29,6 +31,12 @@ const WordsContainer = props => {
         }
     }, [props.words, props.isFetching]);
 
+    function editWord(wordId) {
+        setMode("edit");
+        setWord(props.words.filter(word => word.id === wordId)[0]);
+        toggleModal(true);
+    }
+
     console.log("RELOAD WORDS");
     return (
         <>
@@ -39,12 +47,18 @@ const WordsContainer = props => {
                         <div className="text-center block-m">
                             <button className="block-shadow round-btn plus-btn" onClick={() => toggleModal(true)}></button>
                         </div>
-                        <WordsForm
+                        {
+                            isModalOpened &&
+                            <WordsForm
+                            mode={mode}
+                            word={word}
                             isModalOpened={isModalOpened} 
                             onModalClose={() => toggleModal(false)} 
-                            addWord={props.addWord} 
+                            addWord={props.addWord}
+                            editWord={props.requestEditWord}
                             messages={props.wordsFormMessages} 
                             />
+                        }
                     </>
                 )
             }
@@ -59,7 +73,7 @@ const WordsContainer = props => {
                         }
                         {
                             props.words.length !== 0 &&
-                            <WordsView deleteWord={props.deleteWord} editWord={() => console.log("Not implemented yet")} words={props.words} types={types} />
+                            <WordsView deleteWord={props.deleteWord} editWord={editWord} words={props.words} types={types} />
                         }
                     </>
                 )
@@ -76,4 +90,4 @@ const mapStateToProps = state => ({
    wordsFormMessages: state.wordsReducer.wordsFormMessages
 });
 
-export default connect(mapStateToProps, {getWords, addWord, deleteWord, setNotifications, notifyNoWords})(WordsContainer);
+export default connect(mapStateToProps, {getWords, addWord, requestEditWord, deleteWord, setNotifications, notifyNoWords})(WordsContainer);
