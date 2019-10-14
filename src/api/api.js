@@ -40,6 +40,37 @@ export const wordsApi = {
     }
 };
 
+export const listsApi = {
+    getLists() {
+        return axios.get("https://127.0.0.1:5000/lists", {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
+    },
+    addList(list) {
+        return axios.post("https://127.0.0.1:5000/lists", list, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
+    },
+    editList(list) {
+        return axios.put("https://127.0.0.1:5000/lists", list, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
+    },
+    deleteList(listId) {
+        return axios.delete("https://127.0.0.1:5000/lists?listId=" + listId, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
+    }
+}
+
 export const auth = {
     getUserInfo() {
         return axios.get("https://openidconnect.googleapis.com/v1/userinfo", {

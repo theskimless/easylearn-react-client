@@ -4,7 +4,10 @@ import style from "./WordsView.module.css";
 export default props => {
     const words = props.words.map(word => (
         <div className={[style.wordWrap, "block-m"].join(" ")} key={word.id}>
-            <div className={[style.word, "block-shadow"].join(" ")}>
+            <div
+                className={[style.word, "block-shadow"].join(" ")}
+                onClick={() => props.onSelectWord(word.id)}
+            >
                 <div>{word.name}</div>
                 {word.type !== 0 && <div className={style.type}>{props.types[word.type]}</div>}
             </div>

@@ -1,6 +1,7 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import wordsReducer from "./reducers/wordsReducer";
 import notificationsReducer from "./reducers/notificationsReducer";
+import listsReducer from "./reducers/listsReducer";
 import profileReducer, {redirect} from "./reducers/profileReducer";
 import thunk from "redux-thunk";
 import {auth} from "../api/api";
@@ -8,6 +9,7 @@ import {auth} from "../api/api";
 let reducers = combineReducers({
     profile: profileReducer,
     wordsReducer,
+    listsReducer,
     notificationsReducer
 })
 

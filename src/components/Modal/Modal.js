@@ -20,7 +20,7 @@ export default props => {
                 <div className={style.title}>{props.title}</div>
                 <div>
                     {
-                        props.messages.map((item, key) => <div className={style.errorMessage} key={key}>{item.message}</div>)
+                        props.messages && props.messages.map((item, key) => <div className={style.errorMessage} key={key}>{item.message}</div>)
                     }
                 </div>
                 <div>

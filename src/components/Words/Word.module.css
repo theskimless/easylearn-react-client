@@ -1,0 +1,27 @@
+.block {
+    margin-bottom: 15px;
+}
+
+.blockItem {
+    margin-bottom: 10px;
+}
+
+.word {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.type {
+    font-size: .8em;
+}
+
+.quote {
+    display: inline-block;
+
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+
+    background: url(../../imgs/two-quotes.svg) center no-repeat;
+    background-size: 100%;
+}

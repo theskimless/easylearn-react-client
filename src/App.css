@@ -30,11 +30,10 @@ input {
 input {
   padding: 0 10px;
   background-color: #fff !important;
-
 }
 input:focus {
-  webkit-box-shadow: 0 0 0 2px rgba(66, 133, 244, .5) inset, 0 0 0 1px rgba(66, 133, 244, .5) inset;
-  box-shadow: inset 0 0 0 2px rgba(66, 133, 244, .5), inset 0 0 0 1px rgba(66, 133, 244, .5);
+  webkit-box-shadow: 0 0 0 1px rgba(66, 133, 244, .5) inset, 0 0 0 1px rgba(66, 133, 244, .5) inset;
+  box-shadow: inset 0 0 0 1px rgba(66, 133, 244, .5), inset 0 0 0 1px rgba(66, 133, 244, .5);
 }
 input:focus ~ .form-inp-title {
   color: red !important;
@@ -53,6 +52,9 @@ a {
 
   font: inherit;
 }
+.button:disabled {
+  background: #6ea0f1;
+}
 .round-btn {
   flex-shrink: 0;
   
@@ -69,11 +71,31 @@ a {
   box-shadow: 0 0 20px rgba(0,0,0,.2);
 }
 
+.minus-btn {
+  position: relative;
+  background: #fff;
+
+}
+.minus-btn:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  transform-origin: center;
+
+  width: 50%;
+  height: 2px;
+  background: #000;
+  border-radius: 4px;
+
+  content: "";
+  transition: .3s;
+}
 .plus-btn {
   position: relative;
   /* background: #fff url(./imgs/plus-symbol.svg) center no-repeat; */
+  /* background-size: 60%; */
   background: #fff;
-  background-size: 60%;
 }
 .plus-btn:before,
 .plus-btn:after {
@@ -91,7 +113,7 @@ a {
   transition: .3s;
 }
 .plus-btn:before {
-  transform: translateX(0) translateY(-50%);
+  transform: translate(0, -50%);
 }
 .plus-btn:after {
   background: #000;
@@ -103,7 +125,7 @@ a {
 }
 .plus-btn:hover:after {
   background: #fff;
-  transform: translateX(0) translateY(-50%);
+  transform: translate(0, -50%);
 }
 .plus-btn:hover:before {
   background: #fff;
@@ -157,20 +179,61 @@ a {
   margin-left: 15px;
   color: #eb354a;
   font-size: 0.9em;
+  animation: slideLeftToRight .3s 1;
+}
+@keyframes slideLeftToRight {
+  from {
+    margin-left: 5px;
+  }
+  to {
+    margin-left: 15px;
+  }
+}
+.form-field__input_invalid:focus,
+.form-field__input_invalid {
+  box-shadow: inset 0 0 0 1px #eb354a;
 }
 .form-field__error:before {
   content: "";
- 
+  
   position: absolute;
   left: -10px;
   top: 50%;
 
   transform: translateY(-50%);
-
+  
   background: #eb354a;
   width: 5px;
   height: 5px;
   border-radius: 50%;
+}
+.form-field__array {
+  display: flex;
+}
+.form-field__array__remove {
+  width: 36px;
+  height: 36px;
+
+  background: url(./imgs/minus-symbol.svg) center no-repeat;
+  background-size: 50%;
+}
+.form-field__inp_m:not(:last-child) {
+  margin-bottom: 10px;
+}
+.form-field__array__btn {
+  margin-left: 15px;
+}
+.form-field__array__btn:before {
+  transform: translateX(-1px) translateY(-50%);
+}
+.form-field__array__btn:after {
+  transform: rotate(90deg) translateY(-45%);
+}
+.form-field__array__btn:hover:before {
+  transform: rotate(90deg) translateY(-50%) translateX(0);
+}
+.form-field__array__btn:hover:after {
+  transform: translateX(-50%) translateY(-50%);
 }
 
 /* LOGIN */

@@ -10,10 +10,12 @@ import NotificationsContainer from "./components/Notification/NotificationsConta
 import Redundant from "./components/Redundant/Redundant";
 import RedirectContainer from './components/Redirect/RedirectContainer';
 import WordsContainer from "./components/Words/WordsContainer";
+import ListsContainer from "./components/Lists/ListsContainer";
 import { clearNotifications, setNotifications } from "./redux/reducers/notificationsReducer";
 import LoginView from "./components/Login/LoginView";
 
 function App(props) {
+  // debugger;
   useEffect(() => {
     if(!props.isAuthenticated) {
       let refresh_token = localStorage.getItem("refresh_token");
@@ -39,18 +41,18 @@ function App(props) {
 
   return (
     <div className="wrapper container">
-    <NotificationsContainer width="576" notifications={props.notifications} />
+      <NotificationsContainer width="576" notifications={props.notifications} />
       <RedirectContainer />
       <Route exact path="/login/callback" render={() => <LoginCallback />} />
       {
         props.isAuthenticated ?
         (
           <>
-      
             <ProfileContainer />
             <MenuContainer />
             
             <Route exact path="/" render={() => <WordsContainer />} />
+            <Route exact path="/myLists" render={() => <ListsContainer />} />
             <Route path="/redundant" render={() => <Redundant />} />
           </>
         ):

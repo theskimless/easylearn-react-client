@@ -1,6 +1,7 @@
 const initialState = {
     app: [],
-    words: []
+    words: [],
+    lists: []
 };
 
 const SET_NOTIFICATION = "SET_NOTIFICATION";
@@ -19,7 +20,7 @@ export default (state = initialState, action) => {
         case SET_NOTIFICATION:
             return {
                 ...state,
-                [action.page]:action.notifications
+                [action.page]: action.notifications
             }
         default:
             return state;

@@ -29,7 +29,7 @@
 
     padding: 15px;
     padding-top: 35px;
-    min-width: 300px;
+    width: 340px;
     
     animation: appear .3s 1;
 }

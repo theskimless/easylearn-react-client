@@ -33,41 +33,38 @@ const SET_WORDS_FORM_MESSAGES = "SET_WORDS_FORM_MESSAGES";
 export const setWordsFormMessages = (messages) => ({type: SET_WORDS_FORM_MESSAGES, messages});
 
 // THUNKS
-export const notifyNoWords = (words) => dispatch => {
+export const notifyNoWords = words => dispatch => {
     if(words.length === 0)
-    dispatch(setNotifications("words", [{type: "", title: "You have no words"}]))
+        dispatch(setNotifications("words", [{type: "", title: "You have no words"}]))
 };
 
-export const deleteWord = wordId => dispatch => {
-    wordsApi.deleteWord(wordId)
+export const deleteWord = wordId => ({
+    type: "withCreds",
+    thunk: dispatch => {
+        wordsApi.deleteWord(wordId)
         .then(res => {
             if(res.status === 204) {
                 dispatch(removeWord(wordId));
             }
         })
         .catch(err => console.log(err.response));
-};
+    }
+});
 
-export const addWord = (wordFormData) => ({
+export const requestAddWord = (wordFormData) => ({
     type: "withCreds",
     thunk: dispatch => {
-        wordsApi.addWord(wordFormData)
+        return new Promise((resolve, reject) => {
+            wordsApi.addWord(wordFormData)
             .then(res => {
                 if(res.status === 201) {
                     dispatch(pushWord(res.data));
+                    resolve();
                 }
             })
             .catch(err => {
-                console.log(err.response)
                 let errorMessage;
-                if(err.response && err.response.status === 400 && (errorMessage = err.response.data.message)) {
-                    // dispatch(setNotifications("words",
-                    //     Object.keys(errorMessage).map((key) => ({
-                    //         type: "error",
-                    //         title: key,
-                    //         message: errorMessage[key]
-                    //     }))    
-                    // ));
+                if(err.response && err.response.status === 400 && (errorMessage = err.response.data)) {
                     dispatch(setWordsFormMessages(
                         Object.keys(errorMessage).map((key) => ({
                             title: key,
@@ -75,22 +72,29 @@ export const addWord = (wordFormData) => ({
                         }))
                     ));
                 }
+                reject();
             });
+        });
     }
 });
 
 export const requestEditWord = (word) => ({
     type: "withCreds",
     thunk: dispatch => {
-        wordsApi.editWord(word)
-        .then(res => {
-            console.log(res);
-            if(res.status === 200) {
-                dispatch(editWord(res.data));
-            }
-        })
-        .catch(err => console.log(err));
-        // console.log(word);
+        return new Promise((resolve, reject) => {
+            wordsApi.editWord(word)
+            .then(res => {
+                console.log(res);
+                if(res.status === 200) {
+                    dispatch(editWord(res.data));
+                    resolve();
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                reject();
+            });
+        });
     }
 })
 

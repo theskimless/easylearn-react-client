@@ -9,7 +9,7 @@ export default class extends React.Component {
         this.state = {
             tabs: [
                 {href: "/", text: "My Words"},
-                {href: "/profile", text: "My Profile"}
+                {href: "/myLists", text: "My Lists"}
             ],
             tabWidth: 0,
             tabIndexSelected: 0
@@ -26,6 +26,17 @@ export default class extends React.Component {
             tabWidth: newTabWidth
         })
         this.indicator.current.style.width = newTabWidth + "px";
+        
+        
+        // SELECT TAB BY URL
+        this.state.tabs.forEach((tab, key) => {
+            if(tab.href === this.props.path) {
+                this.setState({
+                    tabIndexSelected: key
+                });
+                this.indicator.current.style.left = newTabWidth * key + "px";
+            }
+        });
     }
 
     selectTab(key) {

@@ -1,5 +1,5 @@
 import {auth} from "../../api/api";
-import { setNotifications } from "./notificationsReducer";
+import { setNotifications, clearNotifications } from "./notificationsReducer";
 
 const initialState = {
     isAuthenticated: false,
@@ -37,13 +37,16 @@ export const checkIfRegistered = () => ({type: "withCreds", thunk: dispatch => {
     console.log("PROFILE REDUCER");
     auth.checkIfRegistered()
         .then(res => {
-            // console.log(res);
-            // console.log(2);
+            // dispatch(clearNotifications("app"));
             dispatch(setAuth(true));
         })
         .catch(err => {
-            if(!err.status) {
+            console.log(err.response);
+            if(!err.response) {
                 dispatch(setNotifications("app", [{type: "error", title: "Server error", message: "Try to reload page later..."}]))
+            }
+            else if(err.response.status === 404) {
+                dispatch(setNotifications("app", [{type: "error", title: "You are not logged in", message: "Try to log in"}]))
             }
             else {
                 console.log(err.response);

@@ -2,20 +2,22 @@ import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import WordsForm from "./WordsForm";
 import WordsView from "./WordsView";
-import {getWords, addWord, requestEditWord, deleteWord, notifyNoWords} from "../../redux/reducers/wordsReducer";
+import {getWords, requestAddWord, requestEditWord, deleteWord, notifyNoWords} from "../../redux/reducers/wordsReducer";
 import Loader from '../Loader/Loader';
 import NotificationsContainer from "../Notification/NotificationsContainer";
 import {setNotifications} from "../../redux/reducers/notificationsReducer";
 import {types} from "../../utils/consts";
+import Word  from "./Word";
+import {splitWordProps} from "../../utils/wordsHelper";
 
 const WordsContainer = props => {
-    let [isModalOpened, toggleModal] = useState(false);
+    let [isWordFormModalOpened, toggleWordFormModal] = useState(false);
+    let [isWordModalOpened, toggleWordModal] = useState(false);
     let [mode, setMode] = useState("add");
     let [word, setWord] = useState({});
-
+    
     useEffect(() => {
         if(props.isAuthenticated) {
-            console.log("LOADING WORDS");
             props.getWords(4);
         }
         else {
@@ -24,17 +26,27 @@ const WordsContainer = props => {
     }, [props.isAuthenticated]);
 
     useEffect(() => {
-        console.log("BEFORE isFetching");
         if(!props.isFetching) {
-            console.log("NOTIFY WORDS");
             props.notifyNoWords(props.words);
         }
     }, [props.words, props.isFetching]);
 
+    function addWord() {
+        setMode("add");
+        toggleWordFormModal(true)
+    }
+
     function editWord(wordId) {
         setMode("edit");
-        setWord(props.words.filter(word => word.id === wordId)[0]);
-        toggleModal(true);
+        let word = splitWordProps(props.words.filter(word => word.id === wordId)[0])
+        setWord(word);
+        toggleWordFormModal(true);
+    }
+
+    function selectWord(wordId) {
+        let word = splitWordProps(props.words.filter(word => word.id === wordId)[0])
+        setWord(word);
+        toggleWordModal(true);
     }
 
     console.log("RELOAD WORDS");
@@ -45,18 +57,24 @@ const WordsContainer = props => {
                 (
                     <>
                         <div className="text-center block-m">
-                            <button className="block-shadow round-btn plus-btn" onClick={() => toggleModal(true)}></button>
+                            <button className="block-shadow round-btn plus-btn" onClick={addWord}></button>
                         </div>
                         {
-                            isModalOpened &&
+                            isWordFormModalOpened &&
                             <WordsForm
-                            mode={mode}
-                            word={word}
-                            isModalOpened={isModalOpened} 
-                            onModalClose={() => toggleModal(false)} 
-                            addWord={props.addWord}
-                            editWord={props.requestEditWord}
-                            messages={props.wordsFormMessages} 
+                                mode={mode}
+                                word={word}
+                                onModalClose={() => toggleWordFormModal(false)}
+                                addWord={props.requestAddWord}
+                                editWord={props.requestEditWord}
+                                messages={props.wordsFormMessages}
+                            />
+                        }
+                        {
+                            isWordModalOpened &&
+                            <Word
+                                word={word}
+                                onModalClose={() => toggleWordModal(false)}
                             />
                         }
                     </>
@@ -73,7 +91,13 @@ const WordsContainer = props => {
                         }
                         {
                             props.words.length !== 0 &&
-                            <WordsView deleteWord={props.deleteWord} editWord={editWord} words={props.words} types={types} />
+                            <WordsView
+                                onSelectWord={selectWord}
+                                deleteWord={props.deleteWord}
+                                editWord={editWord}
+                                words={props.words}
+                                types={types}
+                            />
                         }
                     </>
                 )
@@ -90,4 +114,4 @@ const mapStateToProps = state => ({
    wordsFormMessages: state.wordsReducer.wordsFormMessages
 });
 
-export default connect(mapStateToProps, {getWords, addWord, requestEditWord, deleteWord, setNotifications, notifyNoWords})(WordsContainer);
+export default connect(mapStateToProps, {getWords, requestAddWord, requestEditWord, deleteWord, setNotifications, notifyNoWords})(WordsContainer);
