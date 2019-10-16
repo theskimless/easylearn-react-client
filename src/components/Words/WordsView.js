@@ -12,6 +12,7 @@ export default props => {
                 {word.type !== 0 && <div className={style.type}>{props.types[word.type]}</div>}
             </div>
             <div className={style.wordFuncsWrap}>
+                <button className="plus-btn round-btn" onClick={(e) => props.addWordToListToggleMenu(e, word.id)}></button>
                 <button className={[style.editWordBtn, "round-btn"].join(" ")} onClick={() => props.editWord(word.id)}></button>
                 <button className={[style.deleteWordBtn, "round-btn"].join(" ")} onClick={() => props.deleteWord(word.id)}></button>
             </div>

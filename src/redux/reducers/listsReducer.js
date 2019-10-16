@@ -1,11 +1,23 @@
 import {listsApi} from "../../api/api";
 import {setNotifications} from "../reducers/notificationsReducer";
-import { stat } from "fs";
 
 const initialState = {
     lists: [],
     isFetching: false
 }
+
+export const addWordToList = (wordId, listId) => ({
+    type: "withCreds",
+    thunk: dispatch => {
+        listsApi.addWordToList(wordId, listId)
+        .then(res => {
+            if(res.status === 200) {
+                console.log(res);
+            }
+        })
+        .catch(err => console.log(err));
+    }
+});
 
 export const requestAddList = list => ({
     type: "withCreds",

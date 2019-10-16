@@ -41,6 +41,14 @@ export const wordsApi = {
 };
 
 export const listsApi = {
+    addWordToList(wordId, listId) {
+        console.log(wordId);
+        return axios.post(`https://127.0.0.1:5000/lists/${listId}/words`, {wordId}, {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("access_token")
+            }
+        });
+    },
     getLists() {
         return axios.get("https://127.0.0.1:5000/lists", {
             headers: {

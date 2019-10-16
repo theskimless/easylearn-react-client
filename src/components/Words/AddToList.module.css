@@ -1,0 +1,21 @@
+.wrapper {
+  position: absolute;
+  animation: slide .3s 1;
+}
+
+@keyframes slide {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.list {
+  cursor: pointer;
+  padding: 10px 15px;
+}
+.list:hover {
+  background: #f5f5f5;
+}
