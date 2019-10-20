@@ -13,6 +13,8 @@ import WordsContainer from "./components/Words/WordsContainer";
 import ListsContainer from "./components/Lists/ListsContainer";
 import { clearNotifications, setNotifications } from "./redux/reducers/notificationsReducer";
 import LoginView from "./components/Login/LoginView";
+import {getLists} from "./redux/reducers/listsReducer";
+import {getWords} from "./redux/reducers/wordsReducer";
 
 function App(props) {
   // debugger;
@@ -36,6 +38,8 @@ function App(props) {
       props.clearNotifications("app");
       console.log("SET USERINFO");
       props.setUserinfo();
+      props.getWords(4);
+      props.getLists();
     }
   }, [props.isAuthenticated]);
 
@@ -72,7 +76,9 @@ const mapDispatchToProps = dispatch => ({
   setAuth: (state) => dispatch(setAuth(state)),
   checkIfRegistered: () => dispatch(checkIfRegistered()),
   setNotifications: () => dispatch(setNotifications()),
-  clearNotifications: () => dispatch(clearNotifications())
+  clearNotifications: () => dispatch(clearNotifications()),
+  getWords: () => dispatch(getWords()),
+  getLists: () => dispatch(getLists())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

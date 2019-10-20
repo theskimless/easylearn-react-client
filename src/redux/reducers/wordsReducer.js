@@ -1,4 +1,4 @@
-import {wordsApi} from "../../api/api";
+import wordsApi from "../../api/wordsApi";
 import {setNotifications} from "./notificationsReducer";
 
 // {

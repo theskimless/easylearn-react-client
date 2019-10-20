@@ -1,4 +1,5 @@
 .wrapper {
+  z-index: 1;
   position: absolute;
   animation: slide .3s 1;
 }

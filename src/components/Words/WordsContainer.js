@@ -25,8 +25,6 @@ const WordsContainer = props => {
     
     useEffect(() => {
         if(props.isAuthenticated) {
-            props.getWords(4);
-            props.getLists();
         }
         else {
             props.setNotifications("words", [{type: "error", title: "No access to words", message: "You aren't logged in"}]);
@@ -80,6 +78,7 @@ const WordsContainer = props => {
                             isAddToListModalOpened &&
                             <AddToList
                                 lists={props.lists}
+                                wordId={word}
                                 x={x} 
                                 y={y}
                                 onSelectList={selectList}

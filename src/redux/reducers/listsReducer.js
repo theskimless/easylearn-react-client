@@ -1,4 +1,4 @@
-import {listsApi} from "../../api/api";
+import listsApi from "../../api/listsApi";
 import {setNotifications} from "../reducers/notificationsReducer";
 
 const initialState = {
@@ -13,6 +13,7 @@ export const addWordToList = (wordId, listId) => ({
         .then(res => {
             if(res.status === 200) {
                 console.log(res);
+                dispatch(editList(res.data));
             }
         })
         .catch(err => console.log(err));
@@ -44,6 +45,7 @@ export const requestEditList = list => ({
             listsApi.editList(list)
             .then(res => {
                 if(res.status === 200) {
+                    console.log("RESPONSE FROM SERVER", res.data);
                     dispatch(editList(res.data));
                     resolve();
                 }
@@ -73,11 +75,13 @@ export const getLists = () => ({
     thunk: dispatch => {
         dispatch(setFetching(true));
 
-        listsApi.getLists()
+        listsApi.getLists(true)
         .then(res => {
             console.log(res);
             if(res.status === 200) {
-                res.data.length !== 0 && dispatch(setLists(res.data));
+                if(res.data.length !== 0) {
+                    dispatch(setLists(res.data));
+                };
                 dispatch(setFetching(false));
                 dispatch(setNotifications("lists", []));
             }            
@@ -90,7 +94,6 @@ export const getLists = () => ({
 })
 
 export const notifyNoLists = lists => dispatch => {
-    console.log(lists);
     if(lists.length === 0)
         dispatch(setNotifications("lists", [{type: "", title: "You have no lists"}]))
 };

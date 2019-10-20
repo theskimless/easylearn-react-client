@@ -1,4 +1,4 @@
-import {auth} from "../../api/api";
+import authApi from "../../api/authApi";
 import { setNotifications, clearNotifications } from "./notificationsReducer";
 
 const initialState = {
@@ -26,7 +26,7 @@ const SET_USERINFO = "SET_USERINFO";
 export const setUserinfo = userinfo => ({type: SET_USERINFO, userinfo});
 
 export const logOut = () => dispatch => {
-    auth.revokeToken()
+    authApi.revokeToken()
         .then(res => {
             console.log(res);
             dispatch(setAuth(false));
@@ -35,7 +35,7 @@ export const logOut = () => dispatch => {
 
 export const checkIfRegistered = () => ({type: "withCreds", thunk: dispatch => {
     console.log("PROFILE REDUCER");
-    auth.checkIfRegistered()
+    authApi.checkIfRegistered()
         .then(res => {
             // dispatch(clearNotifications("app"));
             dispatch(setAuth(true));
@@ -55,7 +55,7 @@ export const checkIfRegistered = () => ({type: "withCreds", thunk: dispatch => {
 }});
 
 export const requestUserinfo = () => ({type: "withCreds", thunk: dispatch => {
-    auth.getUserInfo()
+    authApi.getUserInfo()
         .then(res => {
             if(res.status === 200) {
                 dispatch(setUserinfo(res.data));

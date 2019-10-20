@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "../Modal/Modal";
-import {withFormik, Form, Field} from "formik";
+import {withFormik, Form, Field, FieldArray} from "formik";
 
 const ListsForm = props => {
     return (
@@ -13,12 +13,35 @@ const ListsForm = props => {
                     <Field type="text" name="name" />
                 </div>
 
+                {
+                    props.mode === "edit" &&
+                    <FieldArray name="words" render={arrayHelpers => 
+                        arrayHelpers.form.values.words.length !== 0 &&
+                        arrayHelpers.form.values.words.map((word, key) => 
+                            <div className="form-field__array form-field__inp_m" key={key}>
+                                <div className="form-field__array__item">
+                                    <Field name={"words." + key} type="hidden" value={word.id} />
+                                    {word.name}
+                                </div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="round-btn minus-btn form-field__array__btn" 
+                                        onClick={() => arrayHelpers.remove(key)}
+                                    ></button>
+                                </div>
+                            </div>
+                        )
+                    } />
+                }
+
                 {/* SUBMIT */}
                 <div className="text-center">
                     <button 
                         type="submit" 
                         className="button"
-                        disabled={props.isSubmitting}>
+                        // disabled={props.isSubmitting}
+                    >
                         {props.mode[0].toUpperCase() + props.mode.slice(1) + " list"}
                     </button>
                 </div>
@@ -31,7 +54,13 @@ export default withFormik({
     mapPropsToValues({mode, list}) {
         if(mode === "edit") {
             return {
-                name: list.name || ""
+                name: list.name || "",
+                words: list.words.map(word => (
+                    {
+                        id: word.id,
+                        name: word.name
+                    }
+                )) || []
             };
         }
         else {
@@ -64,9 +93,19 @@ export default withFormik({
             });
         }
         else if(props.mode === "edit") {
-            props.editList({
+            let data = {
                 id: props.list.id,
-                ...values
+                name: values.name,
+                words: props.list.words.reduce((accum, word) => {
+                    if(!values.words.find(item => item.id === word.id)) {
+                        accum.push(word.id); 
+                    }
+                    return accum;
+                }, []).toString()
+            };
+            console.log(data);
+            props.editList({
+                ...data
             })
             .then(() => {
                 props.onModalClose();

@@ -4,7 +4,7 @@ import notificationsReducer from "./reducers/notificationsReducer";
 import listsReducer from "./reducers/listsReducer";
 import profileReducer, {redirect} from "./reducers/profileReducer";
 import thunk from "redux-thunk";
-import {auth} from "../api/api";
+import authApi from "../api/authApi";
 
 let reducers = combineReducers({
     profile: profileReducer,
@@ -20,7 +20,7 @@ const refreshTokenMiddleware = store => next => action => {
         let expires_in = localStorage.getItem("expires_in");
         if(refresh_token && access_token && expires_in) {
             if(expires_in - Date.now() < 0) {
-                auth.refreshToken()
+                authApi.refreshToken()
                     .then(() => {
                         return next(action.thunk);
                     });

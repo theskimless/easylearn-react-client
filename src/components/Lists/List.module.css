@@ -1,0 +1,16 @@
+.word {
+    display: flex;
+    justify-content: space-between;
+    transition: .3s;
+    cursor: pointer;
+}
+.word:hover {
+    padding: 0 7px;
+}
+.word:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.type {
+    padding: 3px 7px;
+}

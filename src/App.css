@@ -209,6 +209,10 @@ a {
 }
 .form-field__array {
   display: flex;
+  align-items: center;
+}
+.form-field__array__item {
+  width: 100%;
 }
 .form-field__array__remove {
   width: 36px;

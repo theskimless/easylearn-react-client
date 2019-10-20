@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import {withRouter, Redirect} from "react-router-dom";
 import {setAuth} from "../../redux/reducers/profileReducer";
-import {auth} from "../../api/api";
+import authApi from "../../api/authApi";
 import style from "./LoginCallback.module.css";
 import Loader from "../Loader/Loader";
 
@@ -26,7 +26,7 @@ let LoginCallback = props => {
         if(query.code) {
           console.log(query.code);
           console.log("REQ AGAIN");
-          auth.requestToken(query.code)
+          authApi.requestToken(query.code)
             .then(status => {
               if(status === 200) {
                 console.log("SET AUTH IN CALLBACK");
