@@ -7,6 +7,7 @@ export default props => {
     return (
         <Modal 
             title={
+                props.word.type !== 0 &&
                 <span className={"button " + style.type}>{types[props.word.type].toUpperCase()}</span>
             } 
             onClose={props.onModalClose}
