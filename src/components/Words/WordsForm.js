@@ -99,10 +99,11 @@ const WordsForm = props => {
 export default withFormik({
     mapPropsToValues({mode, word}) {
         if(mode === "edit") {
+            console.log(word);
             return {
                 word: word && word.name || "",
                 type: word && word.type || 0,
-                defs: word && word.defs || [""],
+                defs: word && word.definitions || [""],
                 examples: word && word.examples || [""]
             }
         }
@@ -145,10 +146,14 @@ export default withFormik({
                 });
         }
         else if(props.mode === "edit") {
-            props.editWord({
+            console.log(values);
+            let data = {
                 id: props.word.id,
-                ...values
-            })
+                ...values,
+                defs: values.defs.toString(),
+                examples: values.examples.toString()
+            }
+            props.editWord(data)
                 .then(() => {
                     props.onModalClose();
                 })

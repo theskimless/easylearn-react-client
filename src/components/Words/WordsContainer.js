@@ -35,7 +35,7 @@ const WordsContainer = props => {
         if(!props.isFetching) {
             props.notifyNoWords(props.words);
         }
-    }, [props.words, props.isFetching]);
+    }, [props.words, props.isFetching, props.isAuthenticated]);
 
     function addWord() {
         setMode("add");
@@ -64,7 +64,11 @@ const WordsContainer = props => {
     }
 
     function selectList(listId) {
-        props.addWordToList(word, listId);
+        props.addWordToList(word, listId)
+        .then(() => {
+            toggleAddToListModal(false);
+            console.log("SELECT LIST MENU TOGGLE FALSE");
+        });
     }
 
     console.log("RELOAD WORDS");

@@ -9,14 +9,20 @@ const initialState = {
 export const addWordToList = (wordId, listId) => ({
     type: "withCreds",
     thunk: dispatch => {
-        listsApi.addWordToList(wordId, listId)
-        .then(res => {
-            if(res.status === 200) {
-                console.log(res);
-                dispatch(editList(res.data));
-            }
+        return new Promise(resolve => {
+            listsApi.addWordToList(wordId, listId)
+            .then(res => {
+                if(res.status === 200) {
+                    console.log(res);
+                    dispatch(editList(res.data));
+                    resolve();
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                resolve();
+            });
         })
-        .catch(err => console.log(err));
     }
 });
 

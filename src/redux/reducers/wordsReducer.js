@@ -82,9 +82,10 @@ export const requestEditWord = (word) => ({
     type: "withCreds",
     thunk: dispatch => {
         return new Promise((resolve, reject) => {
+            console.log("WORD", word);
             wordsApi.editWord(word)
             .then(res => {
-                console.log(res);
+                console.log("REQUEST EDIT", res);
                 if(res.status === 200) {
                     dispatch(editWord(res.data));
                     resolve();
